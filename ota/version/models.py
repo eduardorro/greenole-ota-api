@@ -14,3 +14,5 @@ class Version(models.Model):
     
     def get_version(self) -> str:
         return f"{self.name.replace(" ", "_")}/{self.identifier.replace(".", "_")}"
+    
+    

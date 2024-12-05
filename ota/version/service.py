@@ -1,12 +1,14 @@
 from .models import Version
 from utils.upload import copy_s3, delete_all_files_s3 as _delete_all_files_s3
+from django.conf import settings
+import json
+
 
 class VersionService:
     LATEST_PREFIX = 'version/latest/'
 
     def __init__(self, version: Version) -> None:
         self.version = version
-
 
     def _get_filename(self, key):
         return key.split("/")[-1]
@@ -32,5 +34,20 @@ class VersionService:
         prefix = VersionService.LATEST_PREFIX
         self.delete_all_files_s3(prefix)        
         self.copy_files(prefix)
+        
         self.version.latest = True
         self.version.save(update_fields=['latest'])
+
+        Version.objects.update(latest=False, exclude=self.version)
+
+
+    def get_version_payload(self) -> str:
+        if self.version.latest:
+            url = f'https://{settings.OTA_BUCKET}.s3.amazonaws.com/{VersionService.LATEST_PREFIX}'
+        else:
+            url = f'https://{settings.OTA_BUCKET}.s3.amazonaws.com/{self.version.get_version()}'
+        
+        return json.dumps({
+            'url': url,
+            'version': str(self.version)
+        })
