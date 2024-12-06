@@ -15,13 +15,13 @@ class UpdateService:
     def run(self):
         vs = VersionService(self.update.version)
         payload = vs.get_version_payload()
-        result = {'payload': payload, 'info': []}
+        result = {'payload': payload, 'update_id': self.update.id, 'info': []}
 
-        for v in self.update.versions:
+        for d in self.update.devices.all():
             result['info'].append({
-                'out_topic': v.device.get_out_topic(),
-                'ack_topic':v.device.get_ack_topic(),
-                "update_id": v.id
+                'out_topic': d.get_out_topic(),
+                'ack_topic':d.get_ack_topic(),
+                "device_id": d.id
             })
 
         app.send_task(
