@@ -13,6 +13,6 @@ class Version(models.Model):
         return f"V{self.identifier} - {self.name}"
     
     def get_version(self) -> str:
-        return f"{self.name.replace(" ", "_")}/{self.identifier.replace(".", "_")}"
+        return f"version/{self.name.replace(" ", "_")}/{self.identifier.replace(".", "_")}"
     
     

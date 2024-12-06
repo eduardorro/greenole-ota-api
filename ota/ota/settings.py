@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ooy-_rf!o4-&crfuu&q-prfxixu93qw4xs)^t+dd@s3qnk3h1a'
+SECRET_KEY = 'dasdasdasd897da645¨&*¨¨&*das76django-insecure-ooy-_rf!o4-&crfuu&q-prfxixu93qw4xs)^t+dd@s3qnk3h1a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,10 +80,23 @@ WSGI_APPLICATION = 'ota.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+GREENOLE_OTA_DB_NAME = os.getenv('GREENOLE_OTA_DB_NAME')
+GREENOLE_OTA_DB_USER = os.getenv('GREENOLE_OTA_DB_USER')
+GREENOLE_OTA_DB_PASS = os.getenv('GREENOLE_OTA_DB_PASS')
+GREENOLE_OTA_DB_HOST = os.getenv('GREENOLE_OTA_DB_HOST')
+GREENOLE_OTA_DB_PORT = os.getenv('GREENOLE_OTA_DB_PORT')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.db.backends.postgresql",
+        'NAME': GREENOLE_OTA_DB_NAME,
+        'USER': GREENOLE_OTA_DB_USER,
+        'PASSWORD': GREENOLE_OTA_DB_PASS,
+        'HOST': GREENOLE_OTA_DB_HOST,
+        'PORT': GREENOLE_OTA_DB_PORT,
+        'OPTIONS': {
+            'application_name': 'ota'
+        }
     }
 }
 
@@ -128,3 +142,15 @@ STATIC_ROOT = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Redis config
+REDIS_URL = os.getenv("REDIS_URL")
+REDIS_PORT = os.getenv("REDIS_PORT")
+REDIS_DB = os.getenv("REDIS_DB")
+
+#AWS CONFIG
+ACCESS_KEY_ID = os.getenv("ACCESS_KEY_ID")
+SECRET_ACCESS_KEY = os.getenv("SECRET_ACCESS_KEY")
+
+# s3 BUCKET
+OTA_BUCKET = os.getenv("OTA_BUCKET")

@@ -11,7 +11,7 @@ class File(models.Model):
         return self.name
     
     def get_key(self, url):
-        return url.split("/")[-2:] 
+        return "/".join(url.split("/")[-2:])
     
     def get_update_script_url_key(self):
         return self.get_key(self.update_script_url)

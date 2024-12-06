@@ -8,7 +8,7 @@ class Device(models.Model):
     version = models.ForeignKey('version.Version', models.SET_NULL, null=True, blank=True)
 
     def __str__(self) -> str:
-        return f"{self.identifier}::{self.name}"
+        return f"{self.identifier} - {self.name}"
     
     def get_out_topic(self):
         return f'greenole/bk/out/control/{self.identifier}'

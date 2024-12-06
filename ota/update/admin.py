@@ -19,6 +19,10 @@ class VersionUpdateInline(admin.TabularInline):
 class UpdateAdmin(admin.ModelAdmin):
     inlines = [VersionUpdateInline]
     actions = [run_update]
+
+    def save_model(self, request, obj, form, change):
+        service = UpdateService(obj)
+        service.save()
     
 
 class VersionUpdateAdmin(admin.ModelAdmin):

@@ -1,9 +1,16 @@
 from version.service import VersionService
 from utils.celery import app
+from device.models import Device
 
 class UpdateService:
     def __init__(self, update) -> None:
         self.update = update
+    
+    def save(self):
+        self.update.save()
+        
+        if self.update.all_devices:
+            self.update.devices.set(Device.objects.all(), through_defaults={'status': 4})
 
     def run(self):
         vs = VersionService(self.update.version)
