@@ -63,8 +63,8 @@ class VersionService:
     def get_version_payload(self) -> str:
         url = self.get_version_base_url()
         
-        return json.dumps({
+        return {
             'url': url,
             'version': str(self.version),
             'files': self.get_all_version_files()
-        })
+        }
